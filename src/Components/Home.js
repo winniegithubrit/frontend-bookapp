@@ -4,6 +4,7 @@ import UpdateBook from "./UpdateBook";
 
 function Home() {
   const [books, setBooks] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +22,7 @@ function Home() {
       .then((data) => setBooks(data))
       .catch((error) => {
         console.error(error);
-        // Handle the error (e.g., display an error message)
+     
       });
   };
 
@@ -62,23 +63,27 @@ function Home() {
                 <p className="detail">Due Date: {book.duedate}</p>
                 <p className="detail">Description: {book.description}</p>
               </div>
-              <button
-                className="delete-button"
-                onClick={() => handleDeleteBook(book.id)}
-              >
-                Delete
-              </button>
-              <button
-                className="update-button"
-                onClick={() => handleUpdateBook(book.id)}
-              >
-                Update
-              </button>
+              {isLoggedIn && (
+                <>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteBook(book.id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="update-button"
+                    onClick={() => handleUpdateBook(book.id)}
+                  >
+                    Update
+                  </button>
+                </>
+              )}
             </div>
           </div>
         ))}
       </div>
-      <UpdateBook />
+      {isLoggedIn && <UpdateBook />}
     </div>
   );
 }
